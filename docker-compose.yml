@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  tinyy-backend:
+    build:
+      context: tinyy_backend
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
+    environment:
+      ROCKET_ENV: development
+      DATABASE_URL: psql://tinyy:tinyy@postgres:5432/tinyy
+
+  postgres:
+    image: postgres:latest
+    expose:
+      - 5432
+    environment:
+      POSTGRES_USER: tinyy
+      POSTGRES_PASSWORD: tinyy
+      POSTGRES_DB: tinyy
+    volumes:
+      - ./postgres_data/:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:
