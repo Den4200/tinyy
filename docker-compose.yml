@@ -10,7 +10,7 @@ services:
       - postgres
     environment:
       ROCKET_ENV: development
-      DATABASE_URL: psql://tinyy:tinyy@postgres:5432/tinyy
+      DATABASE_URL: postgres://tinyy:tinyy@postgres:5432/tinyy
 
   postgres:
     image: postgres:latest
