@@ -1,39 +1,47 @@
-FROM rustlang/rust:nightly as builder
+##### Build Image #####
+FROM rust:1.46 as builder
 
-RUN USER=root cargo new --bin tinyy_backend
+# Don't download Rust docs
+RUN rustup set profile minimal
 
-WORKDIR /tinyy_backend
-COPY ./Cargo.toml ./Cargo.toml
-
-RUN cargo build --release
-RUN rm src/*.rs
-
-COPY . .
-
-RUN rm ./target/release/deps/tinyy_backend*
-RUN cargo build --release
-
-
-FROM debian:buster-slim
-
-ARG APP=/usr/src/app
-
-RUN apt-get update \
-    && apt-get install -y ca-certificates tzdata \
+# Install DB packages
+RUN apt-get update && apt-get install -y \
+    --no-install-recommends \
+    libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-ENV TZ=Etc/UTC \
-    APP_USER=appuser
+# Create dummy project to build and install dependencies
+RUN USER=root cargo new --bin /app
+WORKDIR /app
 
-RUN groupadd $APP_USER \
-    && useradd -g $APP_USER $APP_USER \
-    && mkdir -p ${APP}
+# Copy over manifests and build files
+COPY ./Cargo.* ./
+COPY ./rust-toolchain ./rust-toolchain
 
-COPY --from=builder /tinyy_backend/target/release/tinyy_backend ${APP}/tinyy_backend
+# Build dependencies and removes the dummy project
+# except for the target folder
+RUN cargo build --release
+RUN find . -not -path "./target*" -delete
 
-RUN chown -R $APP_USER:$APP_USER ${APP}
+# Copy the entire project
+COPY . .
 
-USER $APP_USER
-WORKDIR ${APP}
+# Build full project
+RUN cargo build --release
+
+##### Runtime Image #####
+FROM debian:buster-slim
+
+# Install packages
+RUN apt-get update && apt-get install -y \
+    --no-install-recommends \
+    openssl \
+    ca-certificates \
+    libpq5 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy files from context and the built binary
+COPY Rocket.toml .
+COPY --from=builder /app/target/release/tinyy_backend .
 
 CMD ["./tinyy_backend"]
