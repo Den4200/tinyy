@@ -26,7 +26,6 @@ embed_migrations!();
 pub fn run_migrations(rocket: Rocket) -> Result<Rocket, Rocket> {
     let conn = db::Conn::get_one(&rocket).expect("Failed to get database connection..");
 
-
     match embedded_migrations::run_with_output(&*conn, &mut std::io::stdout()) {
         Ok(()) => {
             println!("Successfully ran database migrations.");
