@@ -2,12 +2,12 @@ use rocket::response::Redirect;
 use rocket_contrib::json::Json;
 
 use crate::db;
-use crate::models::tiny_url::TinyUrl;
+use crate::models::tiny_url::{NewTinyUrl, TinyUrl};
 
 
 #[post("/new", format = "json", data = "<tiny_url>")]
-pub fn new_tiny_url(tiny_url: Json<TinyUrl>, conn: db::Conn) -> Json<TinyUrl> {
-    let tiny_url = TinyUrl { ..tiny_url.into_inner() };
+pub fn new_tiny_url(tiny_url: Json<NewTinyUrl>, conn: db::Conn) -> Json<TinyUrl> {
+    let tiny_url = NewTinyUrl { ..tiny_url.into_inner() };
     Json(TinyUrl::new(tiny_url, &conn))
 }
 
