@@ -18,6 +18,7 @@ use rocket::fairing::AdHoc;
 mod db;
 mod config;
 mod routes;
+mod schema;
 
 
 embed_migrations!();
