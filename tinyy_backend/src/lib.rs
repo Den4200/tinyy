@@ -50,7 +50,6 @@ pub fn rocket() -> Rocket {
         .mount(
             "/",
             routes![
-                routes::health::health,
                 routes::tiny_url::get_tiny_link,
                 routes::tiny_url::new_tiny_url,
                 routes::tiny_url::redirect_tiny_link
