@@ -11,7 +11,7 @@ pub fn new_tiny_url(tiny_url: Json<NewTinyUrl>, conn: db::Conn) -> Json<TinyUrl>
     Json(TinyUrl::new(tiny_url, &conn))
 }
 
-#[get("/raw/<code>")]
+#[get("/<code>/raw")]
 pub fn get_tiny_link(code: String, conn: db::Conn) -> Json<TinyUrl> {
     let tiny_url = TinyUrl::get(code, &conn);
     Json(tiny_url)
