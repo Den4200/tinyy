@@ -20,7 +20,7 @@ impl TinyUrl {
             .expect("Error creating new tiny url")
     }
 
-    pub fn get(code: &str, conn: &PgConnection) -> TinyUrl {
+    pub fn get(code: String, conn: &PgConnection) -> TinyUrl {
         tiny_urls::table
             .find(code)
             .first::<TinyUrl>(conn)
