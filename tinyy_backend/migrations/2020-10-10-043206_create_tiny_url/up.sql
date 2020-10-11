@@ -1,5 +1,4 @@
 CREATE TABLE tiny_urls (
     code VARCHAR(64) NOT NULL PRIMARY KEY,
-    created_at TIMESTAMP NOT NULL,
     url TEXT NOT NULL
 )
