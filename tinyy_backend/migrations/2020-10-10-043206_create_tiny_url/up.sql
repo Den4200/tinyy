@@ -1,0 +1,4 @@
+CREATE TABLE tiny_urls (
+    code VARCHAR(64) NOT NULL PRIMARY KEY,
+    url TEXT NOT NULL
+)

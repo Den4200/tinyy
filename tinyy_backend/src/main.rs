@@ -1,3 +1,6 @@
+use tinyy_backend;
+
 fn main() {
-    println!("Hello, world!");
+    tinyy_backend::rocket()
+        .launch();
 }
