@@ -1,6 +1,7 @@
-use rocket::config::{Config, Environment, Value};
 use std::collections::HashMap;
 use std::env;
+
+use rocket::config::{Config, Environment, Value};
 
 
 /// Creates rocket config from environment variables.

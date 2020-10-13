@@ -17,6 +17,7 @@ use rocket::fairing::AdHoc;
 
 mod db;
 mod config;
+mod errors;
 mod models;
 mod routes;
 mod schema;
