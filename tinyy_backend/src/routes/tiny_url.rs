@@ -12,10 +12,10 @@ pub fn new_tiny_url(tiny_url: Json<NewTinyUrl>, conn: db::Conn) -> Result<Json<T
     let new_tiny_url = NewTinyUrl { ..tiny_url.into_inner() };
     let tiny_url = TinyUrl::new(new_tiny_url, &conn)
         .map_err(|err| {
-            if let TinyUrlError::UniqueCodeViolation = err {
-                Status::Conflict
-            } else {
-                Status::InternalServerError
+            match err {
+                TinyUrlError::UniqueCodeViolation => Status::Conflict,
+                TinyUrlError::InvalidHttpUrl => Status::UnprocessableEntity,
+                _ => Status::InternalServerError
             }
         })?;
 

@@ -4,6 +4,8 @@ use diesel::result::{DatabaseErrorKind, Error};
 use serde::{Deserialize, Serialize};
 use rand::distributions::Alphanumeric;
 use rand::Rng;
+use validator::{Validate, ValidationError};
+use validator_derive::Validate;
 
 use crate::errors::TinyUrlError;
 use crate::schema::tiny_urls;
@@ -15,15 +17,18 @@ pub struct TinyUrl {
     pub url: String
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Validate)]
 pub struct NewTinyUrl {
     pub code: Option<String>,
+    #[validate(url, custom = "validate_http_url")]
     pub url: String
 }
 
 impl TinyUrl {
 
     pub fn new(new_tiny_url: NewTinyUrl, conn: &PgConnection) -> Result<TinyUrl, TinyUrlError> {
+        new_tiny_url.validate().map_err(|_| TinyUrlError::InvalidHttpUrl)?;
+
         let code;
 
         if let None = new_tiny_url.code {
@@ -64,5 +69,14 @@ impl TinyUrl {
                     TinyUrlError::GenericServerError
                 }
             })
+    }
+}
+
+
+fn validate_http_url(url: &str) -> Result<(), ValidationError> {
+    if url.starts_with("http://") || url.starts_with("https://") {
+        Ok(())
+    } else {
+        Err(ValidationError::new("invalid_http_url"))
     }
 }
