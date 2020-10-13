@@ -3,8 +3,10 @@ use rand::distributions::Alphanumeric;
 
 use diesel::prelude::*;
 use diesel::pg::PgConnection;
+use diesel::result::{DatabaseErrorKind, Error};
 use serde::{Deserialize, Serialize};
 
+use crate::errors::TinyUrlError;
 use crate::schema::tiny_urls;
 
 
@@ -22,7 +24,7 @@ pub struct NewTinyUrl {
 
 impl TinyUrl {
 
-    pub fn new(new_tiny_url: NewTinyUrl, conn: &PgConnection) -> TinyUrl {
+    pub fn new(new_tiny_url: NewTinyUrl, conn: &PgConnection) -> Result<TinyUrl, TinyUrlError> {
         let code;
 
         if let None = new_tiny_url.code {
@@ -42,14 +44,26 @@ impl TinyUrl {
         diesel::insert_into(tiny_urls::table)
             .values(&tiny_url)
             .get_result(conn)
-            .expect("Error creating new tiny url")
+            .map_err(|error| {
+                if let Error::DatabaseError(kind, _) = error {
+                    if let DatabaseErrorKind::UniqueViolation = kind {
+                        return TinyUrlError::UniqueCodeViolation;
+                    } 
+                }
+                TinyUrlError::GenericServerError
+            })
     }
 
-    pub fn get(code: String, conn: &PgConnection) -> Result<TinyUrl, ()> {
-        if let Ok(tiny_url) = tiny_urls::table.find(code).first::<TinyUrl>(conn) {
-            Ok(tiny_url)
-        } else {
-            Err(())
-        }
+    pub fn get(code: String, conn: &PgConnection) -> Result<TinyUrl, TinyUrlError> {
+        tiny_urls::table
+            .find(code)
+            .first::<TinyUrl>(conn)
+            .map_err(|error| {
+                if let Error::NotFound = error {
+                    TinyUrlError::CodeNotFound
+                } else {
+                    TinyUrlError::GenericServerError
+                }
+            })
     }
 }
