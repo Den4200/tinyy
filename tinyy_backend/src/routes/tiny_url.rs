@@ -1,5 +1,5 @@
-use rocket::response::Redirect;
 use rocket::http::Status;
+use rocket::response::Redirect;
 use rocket_contrib::json::Json;
 
 use crate::db;

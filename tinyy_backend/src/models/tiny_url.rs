@@ -1,10 +1,9 @@
-use rand::Rng;
-use rand::distributions::Alphanumeric;
-
 use diesel::prelude::*;
 use diesel::pg::PgConnection;
 use diesel::result::{DatabaseErrorKind, Error};
 use serde::{Deserialize, Serialize};
+use rand::distributions::Alphanumeric;
+use rand::Rng;
 
 use crate::errors::TinyUrlError;
 use crate::schema::tiny_urls;
