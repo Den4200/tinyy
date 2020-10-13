@@ -45,10 +45,11 @@ impl TinyUrl {
             .expect("Error creating new tiny url")
     }
 
-    pub fn get(code: String, conn: &PgConnection) -> TinyUrl {
-        tiny_urls::table
-            .find(code)
-            .first::<TinyUrl>(conn)
-            .expect("Tiny url was not found")
+    pub fn get(code: String, conn: &PgConnection) -> Result<TinyUrl, ()> {
+        if let Ok(tiny_url) = tiny_urls::table.find(code).first::<TinyUrl>(conn) {
+            Ok(tiny_url)
+        } else {
+            Err(())
+        }
     }
 }

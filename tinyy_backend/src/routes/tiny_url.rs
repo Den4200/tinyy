@@ -1,4 +1,5 @@
 use rocket::response::Redirect;
+use rocket::http::Status;
 use rocket_contrib::json::Json;
 
 use crate::db;
@@ -12,13 +13,17 @@ pub fn new_tiny_url(tiny_url: Json<NewTinyUrl>, conn: db::Conn) -> Json<TinyUrl>
 }
 
 #[get("/<code>/raw")]
-pub fn get_tiny_link(code: String, conn: db::Conn) -> Json<TinyUrl> {
-    let tiny_url = TinyUrl::get(code, &conn);
-    Json(tiny_url)
+pub fn get_tiny_link(code: String, conn: db::Conn) -> Result<Json<TinyUrl>, Status> {
+    let tiny_url = TinyUrl::get(code, &conn)
+        .map_err(|_| Status::NotFound)?;
+
+    Ok(Json(tiny_url))
 }
 
 #[get("/<code>")]
-pub fn redirect_tiny_link(code: String, conn: db::Conn) -> Redirect {
-    let tiny_url = TinyUrl::get(code, &conn);
-    Redirect::to(tiny_url.url)
+pub fn redirect_tiny_link(code: String, conn: db::Conn) -> Result<Redirect, Status> {
+    let tiny_url = TinyUrl::get(code, &conn)
+        .map_err(|_| Status::NotFound)?;
+
+    Ok(Redirect::to(tiny_url.url))
 }
