@@ -1,5 +1,5 @@
-use diesel::prelude::*;
 use diesel::pg::PgConnection;
+use diesel::prelude::*;
 use diesel::result::{DatabaseErrorKind, Error};
 use serde::{Deserialize, Serialize};
 use rand::distributions::Alphanumeric;
