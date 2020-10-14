@@ -46,7 +46,7 @@ impl TinyUrl {
                             return Err(error);
                         }
                     },
-                    _ => continue
+                    Ok(_) => continue
                 }
             }
         } else {
