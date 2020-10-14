@@ -34,9 +34,9 @@ impl TinyUrl {
         if let None = new_tiny_url.code {
             loop {
                 code = rand::thread_rng()
-                .sample_iter(&Alphanumeric)
-                .take(8)
-                .collect::<String>();
+                    .sample_iter(&Alphanumeric)
+                    .take(8)
+                    .collect::<String>();
 
                 match Self::get(&code, conn) {
                     Err(error) => {
