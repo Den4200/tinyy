@@ -13,13 +13,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Build and Push Docker image
+    - name: Build and Push Backend Docker Image
       uses: docker/build-push-action@v1
       with:
         registry: ghcr.io
         username: ${{ github.repository_owner }}
         password: ${{ secrets.CR_PAT }}
-        repository: den4200/tinyy
+        repository: den4200/tinyy_backend
         path: ./tinyy_backend
         dockerfile: ./tinyy_backend/Dockerfile
         tag_with_sha: true
