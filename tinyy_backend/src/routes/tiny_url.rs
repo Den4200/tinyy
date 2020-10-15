@@ -24,7 +24,7 @@ pub fn new_tiny_url(tiny_url: Json<NewTinyUrl>, conn: db::Conn) -> Result<Json<T
 
 #[get("/<code>/raw")]
 pub fn get_tiny_link(code: String, conn: db::Conn) -> Result<Json<TinyUrl>, Status> {
-    let tiny_url = TinyUrl::get(code, &conn)
+    let tiny_url = TinyUrl::get(&code, &conn)
         .map_err(|err| {
             if let TinyUrlError::CodeNotFound = err {
                 Status::NotFound
@@ -38,7 +38,7 @@ pub fn get_tiny_link(code: String, conn: db::Conn) -> Result<Json<TinyUrl>, Stat
 
 #[get("/<code>")]
 pub fn redirect_tiny_link(code: String, conn: db::Conn) -> Result<Redirect, Status> {
-    let tiny_url = TinyUrl::get(code, &conn)
+    let tiny_url = TinyUrl::get(&code, &conn)
         .map_err(|err| {
             if let TinyUrlError::CodeNotFound = err {
                 Status::NotFound

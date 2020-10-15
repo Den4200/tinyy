@@ -1,5 +1,5 @@
-use diesel::prelude::*;
 use diesel::pg::PgConnection;
+use diesel::prelude::*;
 use diesel::result::{DatabaseErrorKind, Error};
 use serde::{Deserialize, Serialize};
 use rand::distributions::Alphanumeric;
@@ -29,13 +29,26 @@ impl TinyUrl {
     pub fn new(new_tiny_url: NewTinyUrl, conn: &PgConnection) -> Result<TinyUrl, TinyUrlError> {
         new_tiny_url.validate().map_err(|_| TinyUrlError::InvalidHttpUrl)?;
 
-        let code;
+        let mut code;
 
         if let None = new_tiny_url.code {
-            code = rand::thread_rng()
-                .sample_iter(&Alphanumeric)
-                .take(8)
-                .collect::<String>();
+            loop {
+                code = rand::thread_rng()
+                    .sample_iter(&Alphanumeric)
+                    .take(8)
+                    .collect::<String>();
+
+                match Self::get(&code, conn) {
+                    Err(error) => {
+                        if let TinyUrlError::CodeNotFound = error {
+                            break;
+                        } else {
+                            return Err(error);
+                        }
+                    },
+                    Ok(_) => continue
+                }
+            }
         } else {
             code = new_tiny_url.code.unwrap();
         }
@@ -58,7 +71,7 @@ impl TinyUrl {
             })
     }
 
-    pub fn get(code: String, conn: &PgConnection) -> Result<TinyUrl, TinyUrlError> {
+    pub fn get(code: &str, conn: &PgConnection) -> Result<TinyUrl, TinyUrlError> {
         tiny_urls::table
             .find(code)
             .first::<TinyUrl>(conn)
