@@ -23,5 +23,14 @@ services:
     volumes:
       - ./postgres_data/:/var/lib/postgresql/data/
 
+  tinyy-frontend:
+    build:
+      context: tinyy_frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:80
+    depends_on:
+      - tinyy-backend
+
 volumes:
   postgres_data:

@@ -25,6 +25,18 @@ jobs:
         tag_with_sha: true
         tag_with_ref: true
 
+    - name: Build and Push Frontend Docker Image
+      uses: docker/build-push-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.CR_PAT }}
+        repository: den4200/tinyy_frontend
+        path: ./tinyy_frontend
+        dockerfile: ./tinyy_frontend/Dockerfile
+        tag_with_sha: true
+        tag_with_ref: true
+
     - name: Deployment
       uses: zzzze/webhook-trigger@48de98d2c0c5f90638946567d144ebe9da0f2de4
       with:
