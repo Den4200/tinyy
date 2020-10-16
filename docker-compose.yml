@@ -5,7 +5,7 @@ services:
       context: tinyy_backend
       dockerfile: Dockerfile
     ports:
-      - 5000:8000
+      - 8000:8000
     depends_on:
       - postgres
     environment:
@@ -28,7 +28,7 @@ services:
       context: tinyy_frontend
       dockerfile: Dockerfile
     ports:
-      - 8000:80
+      - 3000:80
     depends_on:
       - tinyy-backend
 
