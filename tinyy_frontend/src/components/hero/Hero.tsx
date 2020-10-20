@@ -6,7 +6,7 @@ class Hero extends React.Component {
   render() {
     return (
       <div className="Hero">
-        <img src={logo} className="Hero-logo" alt="logo" />
+        {/* <img src={logo} className="Hero-logo" alt="logo" /> */}
       </div>
     );
   }

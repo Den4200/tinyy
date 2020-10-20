@@ -1,0 +1,45 @@
+.UrlForm {
+  background: #2C2F33;
+  border-radius: 0.7rem;
+  position: relative;
+  width: 75%;
+  max-width: 60rem;
+}
+
+.UrlForm-btn, .UrlForm-input {
+  border: 0;
+  box-sizing: border-box;
+  color: #f1f1f1;
+  display: block;
+  font-size: 1.2rem;
+  height: 3rem;
+}
+
+.UrlForm-input {
+  appearance: none;
+  background: #3d3d3d;
+  border-radius: 0.7rem 0 0 0.7rem;
+  padding: 0 1.6rem;
+  position: relative;
+  outline: 0;
+  width: calc(100% - 3.6rem);
+}
+
+.UrlForm-btn {
+  background: #7289DA;
+  border-radius: 0 0.7rem 0.7rem 0;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3.6rem;
+}
+
+.UrlForm-arrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 5px;
+  transform: rotate(-45deg) translate(-3px, -3px);
+  -webkit-transform: rotate(-45deg) translate(-3px, -3px);
+}
