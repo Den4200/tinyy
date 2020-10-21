@@ -12,7 +12,6 @@ extern crate rocket_contrib;
 
 use dotenv::dotenv;
 
-use rocket::http::Method;
 use rocket::Rocket;
 use rocket::fairing::AdHoc;
 
@@ -58,14 +57,8 @@ fn create_cors() -> Cors {
         ]
     );
 
-    let allowed_methods = vec![Method::Get, Method::Post]
-        .into_iter()
-        .map(From::from)
-        .collect();
-
     let cors = CorsOptions {
         allowed_origins,
-        allowed_methods,
         allow_credentials: true,
         ..Default::default()
     }
