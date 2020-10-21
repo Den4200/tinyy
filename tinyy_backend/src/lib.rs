@@ -57,5 +57,5 @@ pub fn rocket() -> Rocket {
         )
         .attach(db::Conn::fairing())
         .attach(AdHoc::on_attach("Database Migrations", run_migrations))
-        .attach(cors::Cors)
+        .attach(cors::Cors())
 }

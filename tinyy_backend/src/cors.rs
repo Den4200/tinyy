@@ -4,7 +4,7 @@ use rocket::{Request, Response};
 use rocket::fairing::{Fairing, Info, Kind};
 use rocket::http::{ContentType, Header, HeaderMap, Method, Status};
 
-pub struct Cors;
+pub struct Cors();
 
 impl Cors {
     fn get_header(headers: &HeaderMap, name: &str) -> String {
