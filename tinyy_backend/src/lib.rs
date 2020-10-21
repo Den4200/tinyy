@@ -17,6 +17,7 @@ use rocket::fairing::AdHoc;
 
 mod db;
 mod config;
+mod cors;
 mod errors;
 mod models;
 mod routes;
@@ -26,7 +27,7 @@ mod schema;
 embed_migrations!();
 
 
-pub fn run_migrations(rocket: Rocket) -> Result<Rocket, Rocket> {
+fn run_migrations(rocket: Rocket) -> Result<Rocket, Rocket> {
     let conn = db::Conn::get_one(&rocket).expect("Failed to get database connection..");
 
     match embedded_migrations::run_with_output(&*conn, &mut std::io::stdout()) {
@@ -46,8 +47,6 @@ pub fn rocket() -> Rocket {
     dotenv().ok();
 
     rocket::custom(config::from_env())
-        .attach(db::Conn::fairing())
-        .attach(AdHoc::on_attach("Database Migrations", run_migrations))
         .mount(
             "/",
             routes![
@@ -56,4 +55,7 @@ pub fn rocket() -> Rocket {
                 routes::tiny_url::redirect_tiny_link
             ]
         )
+        .attach(db::Conn::fairing())
+        .attach(AdHoc::on_attach("Database Migrations", run_migrations))
+        .attach(cors::Cors)
 }
