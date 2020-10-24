@@ -2,7 +2,7 @@ import React from 'react';
 import './form.css';
 import UrlTable from '../url_table/UrlTable';
 import logo from '../../logo.svg';
-import { createTinyUrl, TinyUrl } from '../../api';
+import { createTinyUrl, TinyUrl, TinyStatus } from '../../api';
 
 interface FormProps {}
 
@@ -32,13 +32,16 @@ class UrlForm extends React.Component<FormProps, FormState>{
     if (!this.state.value)
       return
 
-    let tinyUrl = await createTinyUrl(this.state.value);
-    this.setState(prevState => ({
-      value: "",
-      tinyUrls: [...prevState.tinyUrls, tinyUrl]
-    }));
+    let tinyUrlSpec = await createTinyUrl(this.state.value);
 
-    console.log(this.state.tinyUrls);
+    if (tinyUrlSpec.status === TinyStatus.Ok) {
+      this.setState(prevState => ({
+        value: "",
+        tinyUrls: [...prevState.tinyUrls, tinyUrlSpec.tinyUrl!]
+      }));
+    } else {
+      console.log(`Status ${tinyUrlSpec.status}`)
+    }
   }
 
   render() {
