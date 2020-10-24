@@ -1,5 +1,6 @@
 import React from 'react';
 import './form.css';
+import UrlTable from '../url_table/UrlTable';
 import logo from '../../logo.svg';
 import { createTinyUrl, TinyUrl } from '../../api';
 
@@ -48,6 +49,7 @@ class UrlForm extends React.Component<FormProps, FormState>{
           <input id="url" className="UrlForm-input" value={this.state.value} onChange={this.handleChange} />
           <button className="UrlForm-btn" type="submit"><i className="UrlForm-arrow"></i></button>
         </form>
+        <UrlTable tinyUrls={this.state.tinyUrls} />
       </div>
     )
   }
