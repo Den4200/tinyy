@@ -1,12 +1,16 @@
 .UrlForm {
   align-content: center;
   align-items: center;
+  background: #23272A;
+  border-radius: 1em;
+  box-shadow: 1px 1px 2px 3px #1f1f1f;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   min-height: 50vh;
-  width: 100%;
+  min-width: 60vh;
+  width: 75%;
 }
 
 .UrlForm-logo {
@@ -19,7 +23,7 @@
   background: #2C2F33;
   border-radius: 0.7rem;
   position: relative;
-  width: 75%;
+  width: 90%;
   max-width: 60rem;
 }
 
@@ -34,7 +38,7 @@
 
 .UrlForm-input {
   appearance: none;
-  background: #3d3d3d;
+  background: #2C2F33;
   border-radius: 0.7rem 0 0 0.7rem;
   padding: 0 1.6rem;
   position: relative;
@@ -58,4 +62,10 @@
   padding: 5px;
   transform: rotate(-45deg) translate(-3px, -3px);
   -webkit-transform: rotate(-45deg) translate(-3px, -3px);
+}
+
+@media only screen and (max-device-width: 812px) {
+  .UrlForm-logo {
+    height: 15vh;
+  }
 }
