@@ -1,5 +1,6 @@
 import React from 'react';
 import './form.css';
+import logo from '../../logo.svg';
 import { createTinyUrl } from '../../api';
 
 interface FormProps {}
@@ -38,10 +39,13 @@ class UrlForm extends React.Component<FormProps, FormState>{
 
   render() {
     return (
-      <form className="UrlForm" onSubmit={this.handleSubmit}>
-        <input id="url" className="UrlForm-input" value={this.state.value} onChange={this.handleChange} />
-        <button className="UrlForm-btn" type="submit"><i className="UrlForm-arrow"></i></button>
-      </form>
+      <div className="UrlForm">
+        <img src={logo} className="UrlForm-logo" alt="logo" />
+        <form className="UrlForm-form" onSubmit={this.handleSubmit}>
+          <input id="url" className="UrlForm-input" value={this.state.value} onChange={this.handleChange} />
+          <button className="UrlForm-btn" type="submit"><i className="UrlForm-arrow"></i></button>
+        </form>
+      </div>
     )
   }
 }
