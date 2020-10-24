@@ -64,7 +64,7 @@
   -webkit-transform: rotate(-45deg) translate(-3px, -3px);
 }
 
-@media only screen and (max-device-width: 812px) {
+@media only screen and (max-device-width: 1000px) {
   .UrlForm-logo {
     height: 15vh;
   }
