@@ -1,5 +1,10 @@
 const BASE_URL = "https://tinyy.io";
 
+export interface TinyUrl {
+    tinyUrl: string,
+    url: string
+}
+
 export async function get(route: string): Promise<Response> {
     try {
         return await fetch(`${BASE_URL}${route}`);
@@ -20,9 +25,11 @@ export async function post(route: string, data: Record<string, unknown>): Promis
     }
 }
 
-export async function createTinyUrl(url: string): Promise<string> {
-    let resp = await post("/", {"url": url});
-    let code = (await resp.json()).code;
+export async function createTinyUrl(url: string): Promise<TinyUrl> {
+    let resp = await (await post("/", {"url": url})).json();
 
-    return `${BASE_URL}/${code}`;
+    return {
+        "tinyUrl": `${BASE_URL}/${resp.code}`,
+        "url": resp.url
+    };
 }

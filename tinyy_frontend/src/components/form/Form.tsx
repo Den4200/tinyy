@@ -1,13 +1,13 @@
 import React from 'react';
 import './form.css';
 import logo from '../../logo.svg';
-import { createTinyUrl } from '../../api';
+import { createTinyUrl, TinyUrl } from '../../api';
 
 interface FormProps {}
 
 interface FormState {
   value: string,
-  tinyUrl?: string
+  tinyUrls: TinyUrl[]
 }
 
 class UrlForm extends React.Component<FormProps, FormState>{
@@ -15,7 +15,7 @@ class UrlForm extends React.Component<FormProps, FormState>{
   constructor(props: FormProps) {
     super(props);
 
-    this.state = {value: ""};
+    this.state = {value: "", tinyUrls: []};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,9 +32,12 @@ class UrlForm extends React.Component<FormProps, FormState>{
       return
 
     let tinyUrl = await createTinyUrl(this.state.value);
-    this.setState({value: "", tinyUrl: tinyUrl});
+    this.setState(prevState => ({
+      value: "",
+      tinyUrls: [...prevState.tinyUrls, tinyUrl]
+    }));
 
-    console.log(this.state.tinyUrl);
+    console.log(this.state.tinyUrls);
   }
 
   render() {
