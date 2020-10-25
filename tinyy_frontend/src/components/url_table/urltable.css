@@ -1,0 +1,32 @@
+.UrlTable {
+  align-content: center;
+  border-collapse: collapse;
+  border-radius: 0.7rem;
+  background: #272a2a;
+  box-shadow: 1px 1px 2px 3px #1f1f1f;
+  flex-basis: 100%;
+  margin: 2em;
+  max-width: 80vh;
+  width: 80%;
+}
+
+.UrlTable td {
+  padding: 15px;
+}
+
+.UrlTable tr {
+  border-bottom: 3px solid #222222;
+}
+
+.UrlTable td:nth-of-type(odd) {
+  min-width: 12em;
+}
+
+.UrlTable-url {
+  text-decoration: none;
+  color: #f1f1f1;
+}
+
+.UrlTable-url:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,72 @@
+.UrlForm {
+  align-content: center;
+  align-items: center;
+  background: #23272A;
+  border-radius: 1em;
+  box-shadow: 1px 1px 2px 3px #1f1f1f;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 2em;
+  min-height: 50vh;
+  min-width: 60vh;
+  width: 75%;
+}
+
+.UrlForm-logo {
+  flex-basis: 100%;
+  height: 10vh;
+  margin: 2em;
+}
+
+.UrlForm-form {
+  background: #2C2F33;
+  border-radius: 0.7rem;
+  position: relative;
+  max-width: 90vh;
+  width: 90%;
+}
+
+.UrlForm-btn, .UrlForm-input {
+  border: 0;
+  box-sizing: border-box;
+  color: #f1f1f1;
+  display: block;
+  font-size: 1.2rem;
+  height: 3rem;
+}
+
+.UrlForm-input {
+  appearance: none;
+  background: #2C2F33;
+  border-radius: 0.7rem 0 0 0.7rem;
+  padding: 0 1.6rem;
+  position: relative;
+  width: calc(100% - 3.6rem);
+}
+
+.UrlForm-btn {
+  background: #7289DA;
+  border-radius: 0 0.7rem 0.7rem 0;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3.6rem;
+}
+
+.UrlForm-arrow {
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 5px;
+  transform: rotate(-45deg) translate(-3px, -3px);
+  -webkit-transform: rotate(-45deg) translate(-3px, -3px);
+}
+
+@media only screen and (max-device-width: 1000px) {
+  .UrlForm-logo {
+    height: 15vh;
+  }
+}
