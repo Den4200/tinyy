@@ -46,6 +46,10 @@
   width: calc(100% - 3.6rem);
 }
 
+.UrlForm-input:focus::placeholder {
+  color: transparent;
+}
+
 .UrlForm-btn {
   background: #7289DA;
   border-radius: 0 0.7rem 0.7rem 0;

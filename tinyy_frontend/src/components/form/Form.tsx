@@ -49,8 +49,11 @@ class UrlForm extends React.Component<FormProps, FormState>{
       <div className="UrlForm">
         <img src={logo} className="UrlForm-logo" alt="logo" />
         <form className="UrlForm-form" onSubmit={this.handleSubmit}>
-          <input id="url" className="UrlForm-input" value={this.state.value} onChange={this.handleChange} />
-          <button className="UrlForm-btn" type="submit"><i className="UrlForm-arrow"></i></button>
+          <input id="url" className="UrlForm-input" value={this.state.value} onChange={this.handleChange} placeholder="Link here.." />
+
+          <button className="UrlForm-btn" aria-label="Shorten URL" type="submit">
+            <i className="UrlForm-arrow"></i>
+          </button>
         </form>
         <UrlTable tinyUrls={this.state.tinyUrls} />
       </div>
