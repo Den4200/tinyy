@@ -3,13 +3,11 @@ use std::env;
 
 use rocket::config::{Config, Environment, Value};
 
-
 /// Creates rocket config from environment variables.
 pub fn from_env() -> Config {
     let environment = Environment::active().expect("No environment found.");
 
-    let address = env::var("address")
-        .unwrap_or_else(|_| "0.0.0.0".to_string());
+    let address = env::var("address").unwrap_or_else(|_| "0.0.0.0".to_string());
 
     let port = env::var("PORT")
         .unwrap_or_else(|_| "8000".to_string())
@@ -19,8 +17,8 @@ pub fn from_env() -> Config {
     let mut database_config = HashMap::new();
     let mut databases = HashMap::new();
 
-    let database_url = env::var("DATABASE_URL")
-        .expect("DATABASE_URL environment variable not found.");
+    let database_url =
+        env::var("DATABASE_URL").expect("DATABASE_URL environment variable not found.");
 
     database_config.insert("url", Value::from(database_url));
     databases.insert("diesel_postgres_pool", Value::from(database_config));

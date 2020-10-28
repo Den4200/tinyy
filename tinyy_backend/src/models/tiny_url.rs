@@ -1,33 +1,33 @@
 use diesel::pg::PgConnection;
 use diesel::prelude::*;
 use diesel::result::{DatabaseErrorKind, Error};
-use serde::{Deserialize, Serialize};
 use rand::distributions::Alphanumeric;
 use rand::Rng;
+use serde::{Deserialize, Serialize};
 use validator::{Validate, ValidationError};
 use validator_derive::Validate;
 
 use crate::errors::TinyUrlError;
 use crate::schema::tiny_urls;
 
-
 #[derive(Debug, Insertable, Serialize, Queryable)]
 pub struct TinyUrl {
     pub code: String,
-    pub url: String
+    pub url: String,
 }
 
 #[derive(Debug, Deserialize, Validate)]
 pub struct NewTinyUrl {
     pub code: Option<String>,
     #[validate(url, custom = "validate_http_url")]
-    pub url: String
+    pub url: String,
 }
 
 impl TinyUrl {
-
     pub fn new(new_tiny_url: NewTinyUrl, conn: &PgConnection) -> Result<TinyUrl, TinyUrlError> {
-        new_tiny_url.validate().map_err(|_| TinyUrlError::InvalidHttpUrl)?;
+        new_tiny_url
+            .validate()
+            .map_err(|_| TinyUrlError::InvalidHttpUrl)?;
 
         let mut code;
 
@@ -45,8 +45,8 @@ impl TinyUrl {
                         } else {
                             return Err(error);
                         }
-                    },
-                    Ok(_) => continue
+                    }
+                    Ok(_) => continue,
                 }
             }
         } else {
@@ -55,7 +55,7 @@ impl TinyUrl {
 
         let tiny_url = TinyUrl {
             code,
-            url: new_tiny_url.url
+            url: new_tiny_url.url,
         };
 
         diesel::insert_into(tiny_urls::table)
@@ -65,7 +65,7 @@ impl TinyUrl {
                 if let Error::DatabaseError(kind, _) = error {
                     if let DatabaseErrorKind::UniqueViolation = kind {
                         return TinyUrlError::UniqueCodeViolation;
-                    } 
+                    }
                 }
                 TinyUrlError::GenericServerError
             })
@@ -84,7 +84,6 @@ impl TinyUrl {
             })
     }
 }
-
 
 fn validate_http_url(url: &str) -> Result<(), ValidationError> {
     if url.starts_with("http://") || url.starts_with("https://") {

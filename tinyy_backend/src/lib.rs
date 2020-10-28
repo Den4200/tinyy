@@ -12,25 +12,19 @@ extern crate rocket_contrib;
 
 use dotenv::dotenv;
 
-use rocket::Rocket;
 use rocket::fairing::AdHoc;
+use rocket::Rocket;
 
-use rocket_cors::{
-    AllowedOrigins,
-    Cors,
-    CorsOptions
-};
+use rocket_cors::{AllowedOrigins, Cors, CorsOptions};
 
-mod db;
 mod config;
+mod db;
 mod errors;
 mod models;
 mod routes;
 mod schema;
 
-
 embed_migrations!();
-
 
 fn run_migrations(rocket: Rocket) -> Result<Rocket, Rocket> {
     let conn = db::Conn::get_one(&rocket).expect("Failed to get database connection..");
@@ -39,7 +33,7 @@ fn run_migrations(rocket: Rocket) -> Result<Rocket, Rocket> {
         Ok(()) => {
             println!("Successfully ran database migrations.");
             Ok(rocket)
-        },
+        }
         Err(e) => {
             println!("Failed to run database migrations: {:?}", e);
             Err(rocket)
@@ -47,15 +41,12 @@ fn run_migrations(rocket: Rocket) -> Result<Rocket, Rocket> {
     }
 }
 
-
 fn create_cors() -> Cors {
-    let allowed_origins = AllowedOrigins::some_exact(
-        &[
-            "https://tinyy.io",
-            "http://localhost:3000",
-            "http://127.0.0.1:3000"
-        ]
-    );
+    let allowed_origins = AllowedOrigins::some_exact(&[
+        "https://tinyy.io",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]);
 
     let cors = CorsOptions {
         allowed_origins,
@@ -68,7 +59,6 @@ fn create_cors() -> Cors {
     cors
 }
 
-
 pub fn rocket() -> Rocket {
     dotenv().ok();
 
@@ -79,7 +69,7 @@ pub fn rocket() -> Rocket {
                 routes::tiny_url::get_tiny_link,
                 routes::tiny_url::new_tiny_url,
                 routes::tiny_url::redirect_tiny_link
-            ]
+            ],
         )
         .attach(create_cors())
         .attach(db::Conn::fairing())
