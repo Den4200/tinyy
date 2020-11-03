@@ -4,3 +4,10 @@ pub enum TinyUrlError {
     InvalidHttpUrl,
     UniqueCodeViolation,
 }
+
+pub enum UserError {
+    DuplicateEmail,
+    GenericServerError,
+    InvalidUser,
+    UserNotFound,
+}
