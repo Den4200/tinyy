@@ -29,14 +29,15 @@ impl TinyUrl {
             .validate()
             .map_err(|_| TinyUrlError::InvalidHttpUrl)?;
 
-        let mut code;
+        let mut code: String;
 
         if let None = new_tiny_url.code {
             loop {
                 code = rand::thread_rng()
                     .sample_iter(&Alphanumeric)
                     .take(8)
-                    .collect::<String>();
+                    .map(char::from)
+                    .collect();
 
                 match Self::get(&code, conn) {
                     Err(error) => {
