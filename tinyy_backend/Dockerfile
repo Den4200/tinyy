@@ -1,5 +1,5 @@
 ##### Build Image #####
-FROM rust:1.48 as builder
+FROM rust:1.49 as builder
 
 # Don't download Rust docs
 RUN rustup set profile minimal
