@@ -32,6 +32,8 @@ RUN cargo build --release
 ##### Runtime Image #####
 FROM debian:buster-slim
 
+LABEL org.opencontainers.image.source=https://github.com/Den4200/tinyy
+
 # Install packages
 RUN apt-get update && apt-get install -y \
     --no-install-recommends \

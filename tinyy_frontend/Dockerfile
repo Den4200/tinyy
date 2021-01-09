@@ -15,6 +15,8 @@ RUN yarn build
 ##### Runtime Image #####
 FROM nginx:latest
 
+LABEL org.opencontainers.image.source=https://github.com/Den4200/tinyy
+
 # Copy react code
 COPY --from=builder /usr/src/app/build /usr/share/nginx/html
 
