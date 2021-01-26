@@ -10,7 +10,7 @@ edition = "2018"
 diesel = { version = "1.4.5", features = ["postgres"] }
 diesel_migrations = { version = "1.4.0", features = ["postgres"] }
 dotenv = "0.15.0"
-rand = "0.8.1"
+rand = "0.8.3"
 rocket = { version = "0.4.6", default-features = false }
 rocket_cors = { version = "0.5.2", default-features = false }
 serde = { version = "1.0", features = ["derive"] }
