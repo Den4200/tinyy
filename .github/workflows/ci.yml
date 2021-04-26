@@ -14,7 +14,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Build and Push Backend Docker Image
-      uses: docker/build-push-action@v1
+      uses: docker/build-push-action@v2
       with:
         registry: ghcr.io
         username: ${{ github.repository_owner }}
@@ -26,7 +26,7 @@ jobs:
         tag_with_ref: true
 
     - name: Build and Push Frontend Docker Image
-      uses: docker/build-push-action@v1
+      uses: docker/build-push-action@v2
       with:
         registry: ghcr.io
         username: ${{ github.repository_owner }}
