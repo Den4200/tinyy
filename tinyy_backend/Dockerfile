@@ -1,8 +1,10 @@
 ##### Build Image #####
-FROM rust:1.50 as builder
+FROM rust:latest as builder
 
 # Don't download Rust docs
-RUN rustup set profile minimal
+RUN rustup set profile minimal \
+    && rustup update nightly-2020-07-10 \
+    && rustup default nightly-2020-07-10
 
 # Install DB packages
 RUN apt-get update && apt-get install -y \
