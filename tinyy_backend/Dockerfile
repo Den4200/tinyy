@@ -16,7 +16,7 @@ WORKDIR /app
 
 # Copy over manifests and build files
 COPY ./Cargo.* ./
-COPY ./rust-toolchain ./rust-toolchain
+COPY ./rust-toolchain.toml ./rust-toolchain.toml
 
 # Build dependencies and removes the dummy project
 # except for the target folder
